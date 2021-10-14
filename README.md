@@ -3,7 +3,26 @@ An example of how to change pocketsphinx API. Also, shows an environment for dev
 
 Non-canonical builds for development of new pocketsphinx libraries using autotools.
 
-Canonical builds for distribution of new pocketsphinx libraries using same autotoolas as the original pocketsphinx library.  
+Canonical builds for distribution of new pocketsphinx libraries using same way as the original pocketsphinx library.  
 
 IDE: vs code  
-Compilation and fully debuggable code using own made personalised pocketsphinx API of choice.
+Compilation and fully debuggable code using own made personalised pocketsphinx API of choice.  
+
+
+*Instructions:*
+
+For rebuilding pocketsphinx locally for development and testing (non-canonical build):
+
+In each directory, pocketsphinx/ and /sphinxbase,
+
+```
+./autogen.sh --prefix=$(pwd)/../debug/usr/local/ --exec-prefix=$(pwd)/../debug/usr/local
+make
+make install
+```
+
+Configuration to develop software that use a pocketsphinx library is already set up in vscode:  
+*task.json*, ensuring linking to own pocketsphinx library and including right headers from own pocketsphinx source code.  
+*launch.json*, ensures visual debugging works properly and offers an example how to pass command line argumets to your code.  
+*c_cpp_proerties*, ensures the minimum amount of headers are included.  
+Reguires C/C++ extension.
