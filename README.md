@@ -21,8 +21,8 @@ make
 make install
 ```
 
-Configuration to develop software that use a pocketsphinx library is already set up in vscode:  
+Configuration to develop software that uses a pocketsphinx library is already set up in vscode:  
 *task.json*, ensuring linking to own pocketsphinx library and including right headers from own pocketsphinx source code.  
 *launch.json*, ensures visual debugging works properly and offers an example how to pass command line argumets to your code.  
-*c_cpp_proerties*, ensures the minimum amount of headers are included.  
+*c_cpp_properties*, ensures the minimum amount of headers are included.  
 Reguires C/C++ extension.
