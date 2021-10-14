@@ -1,0 +1,69 @@
+while debugging. I changed the name of the folder (sphinx->my_sphinx). vs code seems to have a dependency somewhere
+because when running gdb on file not still open uses the 'sphinx' in the path rather than 'my_sphinx'
+Unable to open  : Unable to read file  (Error: Unable to resolve nonexistent file ).
+
+libsphinxbase.so.3!cmd_ln_str_r(cmd_ln_t * cmdln, const char * name) (/home/dbarbera/Repositories/sphinx/sphinxbase/src/libsphinxbase/util/cmd_ln.c:950)<-wrong path!!!!!!!!!
+libpocketsphinx.so.3!ps_reinit_buffered(ps_decoder_t * ps, cmd_ln_t * config, void * buffer, size_t size) (/home/dbarbera/Repositories/my_sphinx/pocketsphinx/src/libpocketsphinx/pocketsphinx.c:409)
+libpocketsphinx.so.3!ps_init_buffered(cmd_ln_t * config, void * buffer, size_t size) (/home/dbarbera/Repositories/my_sphinx/pocketsphinx/src/libpocketsphinx/pocketsphinx.c:599)
+ps_call(void * jsgf_buffer, size_t jsgf_buffer_size, void * audio_buffer, size_t audio_buffer_size, int argc, char ** argv) (/home/dbarbera/Repositories/my_sphinx/ps.h:46)
+main() (/home/dbarbera/Repositories/my_sphinx/ps.c:105)
+
+>$ readelf -d ps-debug |head -20
+Dynamic section at offset 0x9c40 contains 31 entries:
+  Tag        Type                         Name/Value
+ 0x0000000000000001 (NEEDED)             Shared library: [libpocketsphinx.so.3]
+ 0x0000000000000001 (NEEDED)             Shared library: [libsphinxbase.so.3]
+ 0x0000000000000001 (NEEDED)             Shared library: [libsphinxad.so.3]
+ 0x0000000000000001 (NEEDED)             Shared library: [libc.so.6]
+ 0x000000000000001d (RUNPATH)            Library runpath: [/home/dbarbera/Repositories/my_sphinx/debug/usr/local/lib]
+ 0x000000000000000c (INIT)               0x4000
+ 0x000000000000000d (FINI)               0x5588
+ 0x0000000000000019 (INIT_ARRAY)         0x9d50
+ 0x000000000000001b (INIT_ARRAYSZ)       8 (bytes)
+ 0x000000000000001a (FINI_ARRAY)         0x9d58
+ 0x000000000000001c (FINI_ARRAYSZ)       8 (bytes)
+ 0x000000006ffffef5 (GNU_HASH)           0x3a0
+ 0x0000000000000005 (STRTAB)             0x830
+ 0x0000000000000006 (SYMTAB)             0x3c8
+ 0x000000000000000a (STRSZ)              731 (bytes)
+ 0x000000000000000b (SYMENT)             24 (bytes)
+ 0x0000000000000015 (DEBUG)              0x0
+
+>$ objdump -x ps-debug |grep RPATH
+
+>$ nm -gD yourLib.so
+
+>$ nm -gD /home/dbarbera/Repositories/mySphinx/debug/usr/local/lib/libpocketsphinx.so
+>$ nm -gD /home/dbarbera/Repositories/mySphinx/debug/usr/local/lib/libsphinxbase.so
+
+Check preprocessor:
+>$ cpp -v
+
+Solution:
+https://commandlinefanatic.com/cgi-bin/showarticle.cgi?article=art026
+https://gcc.gnu.org/onlinedocs/cpp/Invocation.html#Invocation
+https://gcc.gnu.org/onlinedocs/cpp/Include-Syntax.html
+
+EXPORT CPATH ="/home/dbarbera/Repositories/mySphinx/sphinxbase/include":"/home/dbarbera/Repositories/mySphinx/sphinxbase/include/sphinxbase":"/home/dbarbera/Repositories/mySphinx/pocketsphinx/include"
+
+
+
+cpp -isystem /usr -v
+
+Invocation:
+-I dir //deprecated?
+-iquote dir //for #include "mylibrary.h"
+-isystem dir //for #include <mylibrary.h>
+-idirafter dir //for #include <mylibrary.h>
+
+
+cpp -isystem/home/dbarbera/Repositories/mySphinx/sphinxbase/include -isystem/home/dbarbera/Repositories/mySphinx/sphinxbase/include/sphinxbase -isystem/home/dbarbera/Repositories/mySphinx/pocketsphinx/include -v
+
+CFLAGS=""
+export CFLAGS="-isystem/home/dbarbera/Repositories/mySphinx/sphinxbase/include -isystem/home/dbarbera/Repositories/mySphinx/sphinxbase/include/sphinxbase -isystem/home/dbarbera/Repositories/mySphinx/pocketsphinx/include"
+other way:
+CFLAGS="-isystem/home/dbarbera/Repositories/mySphinx/sphinxbase/include -isystem/home/dbarbera/Repositories/mySphinx/sphinxbase/include/sphinxbase -isystem/home/dbarbera/Repositories/mySphinx/pocketsphinx/include"
+./autogen.sh --prefix= /home/dbarbera/Repositories/mySphinx/debug/usr/local/ --exec-prefix= /home/dbarbera/Repositories/mySphinx/debug/usr/local/ CFLAGS="-isystem/home/dbarbera/Repositories/mySphinx/sphinxbase/include -isystem/home/dbarbera/Repositories/mySphinx/sphinxbase/include/sphinxbase -isystem/home/dbarbera/Repositories/mySphinx/pocketsphinx/include"
+
+
+>$ nm -gD /home/dbarbera/Repositories/mySphinx/sphinxbase/src/libsphinxbase/.libs/libsphinxbase.so

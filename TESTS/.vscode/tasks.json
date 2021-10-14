@@ -1,0 +1,88 @@
+{
+    "tasks":[
+        {
+            "type": "cppbuild",
+            "label": "GCC Build Debug",
+            "command": "/usr/bin/gcc",
+            "args": [          
+                    "-g",
+                    "-Og", "-ggdb",
+                    //"-O0",
+                    "-Wno-unused-result", //remove warning about unused return values. (continuous.c:163:2: warning: ignoring return value of ‘fread’,)
+
+                    "-I/usr/local/include/sphinxbase",
+                    "-I/usr/local/include/pocketsphinx",
+                    "-I/usr/local/include",
+                    "-I/usr/include",
+                    "-I/usr/local/include/sphinxbase",
+                    
+
+                    "${file}",
+
+                    "-L/usr/local/lib",
+                    "-L/usr/lib/",
+                    "-lpocketsphinx",
+                    "-lsphinxbase",
+                    "-lsphinxad",
+                    "-lpthread",
+                    "-lm",
+
+                    "-o",
+                    "${fileDirname}/${fileBasenameNoExtension}-debug"
+                    //"-DMODELDIR=\"/usr/local/share/pocketsphinx/model\""
+                    
+                ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": ["$gcc"],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "compiler: /usr/bin/gcc"
+        },
+
+        {
+            "type": "cppbuild",
+            "label": "GCC Build Release",
+            "command": "/usr/bin/gcc",
+            "args": [          
+                    "-O3",
+                    "-Wno-unused-result", 
+
+                    "-I/usr/local/include/sphinxbase",
+                    "-I/usr/local/include/pocketsphinx",
+                    "-I/usr/local/include",
+                    "-I/usr/include",
+                    "-I/usr/local/include/sphinxbase",
+                    
+
+                    "${file}",
+
+                    "-L/usr/local/lib",
+                    "-L/usr/lib/",
+                    "-lpocketsphinx",
+                    "-lsphinxbase",
+                    "-lsphinxad",
+                    "-lpthread",
+                    "-lm",
+
+                    "-o",
+                    "${fileDirname}/${fileBasenameNoExtension}"
+                    //"-DMODELDIR=\"/usr/local/share/pocketsphinx/model\""
+                    
+                ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": ["$gcc"],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "compiler: /usr/bin/gcc"
+        }
+    ],
+    "version": "2.0.0",
+  } 

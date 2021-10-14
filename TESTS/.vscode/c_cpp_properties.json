@@ -1,0 +1,38 @@
+//https://stackoverflow.com/questions/58751821/how-to-configure-vscode-for-gtk3-for-intellisense-build-debug-and-g
+{
+    "env": {
+        "myDefaultIncludePath": [
+            "${myDefaultIncludePath}",
+            "${workspaceFolder}",
+            "${workspaceFolder}/pocketsphinx/include",
+            "${workspaceFolder}/sphinxbase/include"
+        ],
+        "myCompilerPath": "/usr/bin/gcc" //"$(which gcc)"//"/usr/local/bin/gcc"
+    },
+    "configurations": [
+        {
+            "name": "include paths",
+            "intelliSenseMode": "gcc-x64",
+            "includePath": [
+                "/usr/include",
+                "/usr/local/include",
+                "/usr/local/include/sphinxbase",
+                "/usr/local/include/pocketsphinx",
+                "/usr/local/include/sphinxbase",
+                "/usr/include/c++/9",
+                "/usr/include/x86_64-linux-gnu/c++/9"
+            ],
+            "compilerPath": "/usr/bin/gcc", //"/usr/local/bin/gcc",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "browse": {
+                "path": [
+                    "${workspaceFolder}"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
+            }
+        }
+    ],
+    "version": 4
+}

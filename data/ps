@@ -1,0 +1,41 @@
+#!/bin/bash
+
+pocketsphinx_continuous \
+-alpha 0.97 \
+-backtrace yes \
+-beam 1e-10000 \
+-bestpath no \
+-cmn live \
+-cmninit  \
+-dict "~/Repositories/sphinx/data/art_db.phone" \
+-dither no \
+-doublebw no \
+-featparams  /usr/local/share/pocketsphinx/model/en-us/en-us/feat.params \
+-fsgusefiller no \
+-frate 125 \
+-fwdflat no \
+-hmm  /usr/local/share/pocketsphinx/model/en-us/en-us \
+-infile ~/Repositories/sphinx/data/aclimb1_colin.wav \
+-jsgf ~/Repositories/sphinx/data/akl_ay_m.jsgf \
+-logfn ~/Repositories/sphinx/data/aoutput.log \
+-lpbeam 1e-10000 \
+-lponlybeam 1e-10000 \
+-lw 6 \
+-maxhmmpf -1 \
+-maxwpf -1 \
+-nfft 256 \
+-nwpen 1 \
+-pbeam 1e-10000 \
+-pip 1 \
+-pl_window 0 \
+-remove_dc no \
+-remove_noise yes \
+-remove_silence no \
+-topn 4 \
+-vad_postspeech 25 \
+-vad_prespeech 5 \
+-vad_startspeech 8 \
+-vad_threshold 1 \
+-wbeam 1e-10000 \
+-wip 0.5 \
+-wlen 0.016 

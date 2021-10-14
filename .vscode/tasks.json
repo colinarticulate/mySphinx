@@ -1,0 +1,161 @@
+{
+    "tasks":[
+        {
+            "type": "cppbuild",
+            "label": "GCC Build Debug",
+            "command": "/usr/bin/gcc",
+            "args": [          
+                    "-g", "-Wall",
+                    "-Og", "-ggdb",
+                    //"-O0",
+                    "-Wno-unused-result", //remove warning about unused return values. (continuous.c:163:2: warning: ignoring return value of ‘fread’,)
+                    
+                    //Spicfy where to find our tailor-made libraires to the linker and later to gdb so we debug the right library
+                    "-Wl,-rpath=${fileDirname}/debug/usr/local/lib",
+                   // "-Wl,-rpath=${fileDirname}/sphinxbase/src/libsphinxbase/util",
+                    
+                    "-I${fileDirname}/sphinxbase/include",
+                    "-I${fileDirname}/sphinxbase/include/sphinxbase",
+                    "-I${fileDirname}/pocketsphinx/include",
+
+                    //"-I/usr/local/include",
+                    "-I/usr/include",
+                    //"-I/usr/local/include/sphinxbase", // if thismissing then: sphinxbase/ad.h:44:10: fatal error: sphinx_config.h: No such file or directory
+                    
+                    
+                    
+
+                    "${file}",
+                    
+                    "-lpthread",
+                    "-lm",
+
+                    "-L${fileDirname}/debug/usr/local/lib",
+                    
+                   //"-L/usr/lib/",
+                    "-lpocketsphinx",
+                    "-lsphinxbase",
+                    "-lsphinxad",
+
+
+                    // "-L${fileDirname}/sphinxbase/src/libsphinxbase/util/.libs",
+                    // "-lsphinxutil",
+
+                    "-o",
+                    "${fileDirname}/${fileBasenameNoExtension}-debug"
+                    //"-DMODELDIR=\"/usr/local/share/pocketsphinx/model\""
+                    
+                ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+           // "problemMatcher": ["$gcc"],
+            "problemMatcher": { 
+                "base": "$gcc", 
+                "fileLocation": [ "absolute" ]
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "compiler: /usr/bin/gcc"
+        },
+
+        {
+            "type": "cppbuild",
+            "label": "GCC Build Release",
+            "command": "/usr/bin/gcc",
+            "args": [          
+                    "-O3",
+                    //"-Wno-unused-result", 
+
+                    "-I${fileDirname}/sphinxbase/include/sphinxbase",
+                    "-I${fileDirname}/include/sphinxbase",
+                    "-I${fileDirname}/pocketsphinx/include/pocketsphinx",
+                    "-I/usr/local/include",
+                    "-I/usr/include",
+                    
+
+                    "${file}",
+
+                    "-L/usr/local/lib",
+                    "-L/usr/lib/",
+                    "-lpocketsphinx",
+                    "-lsphinxbase",
+                    "-lsphinxad",
+                    "-lpthread",
+                    "-lm",
+
+                    "-o",
+                    "${fileDirname}/${fileBasenameNoExtension}"
+                    //"-DMODELDIR=\"/usr/local/share/pocketsphinx/model\""
+                    
+                ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": ["$gcc"],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "compiler: /usr/bin/gcc"
+        },
+        
+        {
+            "type": "cppbuild",
+            "label": "GCC Build own POCKETSPHINX DEBUG .SO",
+            "command": "/usr/bin/gcc",
+            "args": [          
+                    "-g", "-Wall",
+                    "-Og", "-ggdb",
+                    "-shared",
+                    "-W",
+                    //"-Wno-unused-result", 
+
+                    // "-I/${fileDirname}/../../../sphinxbase/include",
+                    // "-I/${fileDirname}/../../../sphinxbase/include/sphinxbase",
+                    // "-I/${fileDirname}/../../../pocketsphinx/include",
+
+                    //"-I/${workspaceFolder}/sphinxbase/include",
+                    //"-I/${workspaceFolder}/sphinxbase/include/sphinxbase",
+                    "-I/${workspaceFolder}/pocketsphinx/include",
+                    "-I${workspaceFolder}/debug/usr/local/sphinxbase",
+                    //"-I${workspaceFolder}/debug/usr/local/",
+                    //"-I${workspaceFolder}/debug/usr/local/",
+
+                    //"-I/usr/local/include",
+                    "-I/usr/include",
+                    //"-I/usr/local/include/sphinxbase", // if thismissing then: sphinxbase/ad.h:44:10: fatal error: sphinx_config.h: No such file or directory
+                    //"-I/usr/local/include/pocketsphinx",
+                    
+
+                    "${file}",
+
+                    //"-L/usr/local/lib",
+                    "-L/usr/lib/",
+                    "-L$(workspaceFolder}/debug/usr/local/lib",
+                    //"-lpocketsphinx",
+                    //"-lsphinxbase",
+                    //"-lsphinxad",
+                    "-lpthread",
+                    "-lm",
+
+                    "-o",
+                    "${workspaceFolder}/lib/${fileBasenameNoExtension}-debug.so.xyz"
+                                        
+                ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": ["$gcc"],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "compiler: /usr/bin/gcc"
+        },
+      
+    ],
+    "version": "2.0.0",
+  } 
