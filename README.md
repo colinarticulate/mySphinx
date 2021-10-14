@@ -3,7 +3,7 @@ An example of how to change pocketsphinx API. Also, shows an environment for dev
 
 Non-canonical builds for development of new pocketsphinx libraries using autotools.
 
-Canonical builds for distribution of new pocketsphinx libraries using same way as the original pocketsphinx library.  
+Canonical builds for distribution of new pocketsphinx libraries using the same way as the original pocketsphinx library.  
 
 IDE: vs code  
 Compilation and fully debuggable code using own made personalised pocketsphinx API of choice.  
