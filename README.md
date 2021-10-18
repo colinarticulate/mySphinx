@@ -16,7 +16,8 @@ For rebuilding pocketsphinx locally for development and testing (non-canonical b
 In each directory, pocketsphinx/ and /sphinxbase,
 
 ```
-./autogen.sh --prefix=$(pwd)/../debug/usr/local/ --exec-prefix=$(pwd)/../debug/usr/local
+./autogen.sh --prefix=$(pwd)/../debug/usr/local/ --exec-prefix=$(pwd)/../debug/usr/local \  
+CFLAGS="-isystem$(cwd)/sphinxbase/include "  
 make
 make install
 ```
