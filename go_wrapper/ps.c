@@ -2,7 +2,7 @@
 #include <string.h>
 #include <assert.h>
 
-#include "ps.h"
+//#include "ps.h"
 
 
 char *argv_[] = {
@@ -49,65 +49,72 @@ char *argv_[] = {
 
 int argc_ = 77;
 
-const char* jsgf_filename = "/home/dbarbera/Repositories/mySphinx/data/kl_ay_m.jsgf";
-const char* audio_filename = "/home/dbarbera/Repositories/mySphinx/data/climb1_colin.wav";
-//const char* audio_filename = "/home/dbarbera/Repositories/sphinx/data/climb1_colin_headerless.raw";
+// const char* jsgf_filename = "/home/dbarbera/Repositories/mySphinx/data/kl_ay_m.jsgf";
+// const char* audio_filename = "/home/dbarbera/Repositories/mySphinx/data/climb1_colin.wav";
+// //const char* audio_filename = "/home/dbarbera/Repositories/sphinx/data/climb1_colin_headerless.raw";
 
-//result_t ps_call(char* jsgf_buffer, int16* audio_buffer, int argc, char *argv[]);
-int ps_call(void* jsgf_buffer, size_t jsgf_buffer_size, void* audio_buffer, size_t audio_buffer_size, int argc, char *argv[]);
+// //result_t ps_call(char* jsgf_buffer, int16* audio_buffer, int argc, char *argv[]);
+// int ps_call(void* jsgf_buffer, size_t jsgf_buffer_size, void* audio_buffer, size_t audio_buffer_size, int argc, char *argv[]);
 
-void print_result(result_t result) {
+// void print_result(result_t result) {
 
-    for(int i=0; i<result.n; i++) {
-        printf("%i  %i %i\n", result.phonemes_idx[i], result.starts[i], result.ends[i]);
-    }
-}
+//     for(int i=0; i<result.n; i++) {
+//         printf("%i  %i %i\n", result.phonemes_idx[i], result.starts[i], result.ends[i]);
+//     }
+// }
 
-void* create_buffer(size_t* bsize, const char* filename, const char* mode){
-    FILE* file = NULL;
-    file = fopen(filename, mode);
-    if (file == NULL) {
-        E_ERROR_SYSTEM("Failed to open %s for parsing", filename);
-        return 0;
-    }
-    fseek(file, 0, SEEK_END);
-    long fsize = ftell(file);
-    *bsize=fsize;
-    fseek(file, 0, SEEK_SET);  /* same as rewind(f); */
+// void* create_buffer(size_t* bsize, const char* filename, const char* mode){
+//     FILE* file = NULL;
+//     file = fopen(filename, mode);
+//     if (file == NULL) {
+//         E_ERROR_SYSTEM("Failed to open %s for parsing", filename);
+//         return 0;
+//     }
+//     fseek(file, 0, SEEK_END);
+//     long fsize = ftell(file);
+//     *bsize=fsize;
+//     fseek(file, 0, SEEK_SET);  /* same as rewind(f); */
 
     
-    void* contents = (void*)malloc(fsize + 1);
-    fread(contents, 1, fsize, file);
-    fclose(file);
+//     void* contents = (void*)malloc(fsize + 1);
+//     fread(contents, 1, fsize, file);
+//     fclose(file);
 
-    return contents;
-}
+//     return contents;
+// }
 
-void delete_buffer(void* buffer){
-    free(buffer);
-}
+// void delete_buffer(void* buffer){
+//     free(buffer);
+// }
 
 
 int
 main()
 {
 
-    void* jsgf_buffer = NULL;
-    void* wav_data = NULL;
+    // void* jsgf_buffer = NULL;
+    // void* wav_data = NULL;
 
-    size_t jsgf_buffer_size = 0; 
-    size_t wav_data_size = 0;
+    // size_t jsgf_buffer_size = 0; 
+    // size_t wav_data_size = 0;
     
-    jsgf_buffer = create_buffer( &jsgf_buffer_size, jsgf_filename, "rb");
-    wav_data = create_buffer(&wav_data_size, audio_filename, "rb");
+    // jsgf_buffer = create_buffer( &jsgf_buffer_size, jsgf_filename, "rb");
+    // wav_data = create_buffer(&wav_data_size, audio_filename, "rb");
 
-    //result_t result = ps_call(jsgf_buffer, audio_buffer, argc, argv);
-    ps_call(jsgf_buffer, jsgf_buffer_size, wav_data, wav_data_size, argc_, argv_);
+    // //result_t result = ps_call(jsgf_buffer, audio_buffer, argc, argv);
+    // ps_call(jsgf_buffer, jsgf_buffer_size, wav_data, wav_data_size, argc_, argv_);
 
-    //print_result(result);
+    // //print_result(result);
 
-    delete_buffer(jsgf_buffer);
-    delete_buffer(wav_data);
+    // delete_buffer(jsgf_buffer);
+    // delete_buffer(wav_data);
+
+    printf("%d parameters\n\n", argc_);
+  
+    for( int i=0; i<argc_; i++){
+        printf("%d\t%s\n",i,argv_[i]);
+    }
+return 0;
 
     return 0;
 }

@@ -1,0 +1,14 @@
+Where you want to make the wrapper, dir "example/"
+>$ swig -go -cgo -intgosize 64 example.i
+>$ go mod init example
+>$ go install
+
+Where you want to call the wrapper
+create a main module: in the example would be runme.go
+>$ go mod init <whatever-name-you-want>
+Fetch the example module locally:
+>$ go mod edit -replace example=../example
+Then just execute it
+>$ go run runme.go
+or
+ >$ go run .
