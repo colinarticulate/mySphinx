@@ -1,0 +1,2 @@
+filename from go: 
+ ./../data/params_file__from_c.txt

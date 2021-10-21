@@ -9,7 +9,6 @@ extern int pscall(int argc, char *argv[]);
 
 %typemap(in) (int argc, char *argv[])
 %{
-  
     int i;
     _gostring_* a;
 
