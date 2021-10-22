@@ -1,2 +1,2 @@
 filename from go: 
- ./../data/params_file__from_c.txt
+ Hello World, passing go strings to c strings, yeahhh again!!!

@@ -74,8 +74,10 @@ func main() {
 
 	//xyz.Create_file(jsgf_buffer, filename_jsgf[:len(filename_jsgf)-5]+"__from_c.jsgf")
 	//xyz.Create_file(jsgf_buffer, filename_wav[:len(filename_wav)-4]+"__from_c.wav")
+
+	xyz.Create_file_params_nofilename(params)
+	xyz.Check_string("Hello World, passing go strings to c strings, yeahhh again!!!")
 	xyz.Create_file_params(params, "./../data/params_file__from_c.txt")
-	//xyz.Check_string("./../data/params_file__from_c.txt")
 	//xyz.Ps_call(jsgf_buffer, audio_buffer, params)
 
 }
