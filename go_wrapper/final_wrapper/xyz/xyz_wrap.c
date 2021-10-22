@@ -326,39 +326,39 @@ intgo _wrap_check_string_xyz_2460481bc7b6ab28(_gostring_ _swig_go_0) {
 }
 
 
-intgo _wrap_ps_call_xyz_2460481bc7b6ab28(_goslice_ _swig_go_0, _goslice_ _swig_go_1, _goslice_ _swig_go_2) {
-  char *arg1 = (char *) 0 ;
+intgo _wrap_ps_call_xyz_2460481bc7b6ab28(void *_swig_go_0, intgo _swig_go_1, void *_swig_go_2, intgo _swig_go_3, _goslice_ _swig_go_4) {
+  void *arg1 = (void *) 0 ;
   int arg2 ;
-  arg1 = _swig_go_0.array;
-  arg2 = _swig_go_0.len;
-
-  char *arg3 = (char *) 0 ;
+  void *arg3 = (void *) 0 ;
   int arg4 ;
-  arg3 = _swig_go_0.array;
-  arg4 = _swig_go_0.len;
-
   int arg5 ;
   char **arg6 ;
-
   int result;
   intgo _swig_go_result;
   
- 
+  arg1 = *(void **)&_swig_go_0; 
+  arg2 = (int)_swig_go_1; 
+  arg3 = *(void **)&_swig_go_2; 
+  arg4 = (int)_swig_go_3; 
+  
   int i;
   _gostring_* a;
   
-  arg5 = _swig_go_2.len;
-  a = (_gostring_*) _swig_go_2.array;
+  arg5 = _swig_go_4.len;
+  a = (_gostring_*) _swig_go_4.array;
   arg6 = (char **) malloc ((arg5 ) * sizeof (char *));
-
   for ( i = 0; i < arg5; i++) {
-
     _gostring_ *ps = &a[i];
     arg6[i] = (char*)malloc( ((int)(ps->n) + 1)*sizeof(char));
     memcpy(arg6[i],(char*) ps->p, (int)(ps->n) );
+    //arg6[i] = (char *) ps->p;
     arg6[i][ps->n]='\0';
+    // _gostring_ *ps = &a[i];
+    // arg6[i] = (char *) ps->p;
   }
- 
+  //arg6[i] = NULL;
+  //arg6[i] = '\0';
+  
   
   
   result = (int)ps_call(arg1,arg2,arg3,arg4,arg5,arg6);

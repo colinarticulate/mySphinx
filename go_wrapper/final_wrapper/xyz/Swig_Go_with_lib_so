@@ -1,0 +1,117 @@
+https://stackoverflow.com/questions/10126531/swig-and-c-shared-library
+and then add the rpath
+
+>$ swig -go -cgo -intgosize xyz.i
+
+replace xyz.go and xyz_wrap.c with respective files manually fixed
+
+>$
+gcc -g -O2 -Wall -Wl,-rpath=./local/lib -fPIC -Wextra \
+-Wno-unused-function \
+-I./local/include/ \
+-I./local/include/sphinxbase \
+-I./local/include/pocketsphinx \
+-I/usr/include \
+-lpthread -lm \
+-L./local/lib -lpocketsphinx -lsphinxbase -lsphinxad \
+-shared xyz_wrap.c -o xyz.so
+
+or static:
+>$ gcc -g -O2 -Wall -Wl,-rpath=./local/lib -fPIC -Wextra \
+-Wno-unused-function \
+-I./local/include/ \
+-I./local/include/sphinxbase \
+-I./local/include/pocketsphinx \
+-I/usr/include \
+-lpthread -lm \
+-L./local/lib -lpocketsphinx -lsphinxbase -lsphinxad \
+-c xyz_wrap.c -o xyz.o
+>$ ar rcs xyz.a xyz.o
+
+
+
+>$
+go install or go build
+
+go build \
+-I./local/include/ \
+-I./local/include/sphinxbase \
+-I./local/include/pocketsphinx \
+
+
+go install -gcflags \
+'-g -O2 -Wall -Wl,-rpath=./local/lib -fPIC -Wextra \
+-Wno-unused-function \
+-I./local/include/ \
+-I./local/include/sphinxbase \
+-I./local/include/pocketsphinx \
+-I/usr/include' \
+-ldflags \
+'-lpthread -lm \
+-L./local/lib -lpocketsphinx -lsphinxbase -lsphinxad'
+
+go build  -buildmode=shared
+
+
+go build -gccgoflags -g -O2 -Wall -Wl,-rpath=./local/lib -fPIC -Wextra \
+-Wno-unused-function \
+-I./local/include/ \
+-I./local/include/sphinxbase \
+-I./local/include/pocketsphinx \
+-I/usr/include \
+-lpthread -lm \
+-L./local/lib -lpocketsphinx -lsphinxbase -lsphinxad \
+-shared xyz_wrap.c -o xyz.so
+
+
+https://dh1tw.de/2019/12/cross-compiling-golang-cgo-projects/
+go build -gcflags="-g -O2 -Wall -Wl,-rpath=./local/lib -fPIC -Wextra \
+-Wno-unused-function -I./local/include/ \
+-I./local/include/sphinxbase \
+-I./local/include/pocketsphinx -I/usr/include" \
+-ldflags="-lpthread -lm -L./local/lib -lpocketsphinx -lsphinxbase -lsphinxad"
+
+
+
+https://dave.cheney.net/2014/06/04/what-does-go-build-build
+
+https://stackoverflow.com/questions/38381357/how-to-point-to-c-header-files-in-go
+CGO_CFLAGS="-g -O2 -Wall -Wl,-rpath=./local/lib -fPIC -Wextra \
+-Wno-unused-function -I./local/include/ \
+-I./local/include/sphinxbase \
+-I./local/include/pocketsphinx -I/usr/include" go build
+
+CGO_CFLAGS="-g -O2 -Wall -Wl,-rpath=$(pwd)/local/lib -fPIC -Wextra \
+-Wno-unused-result \
+-Wno-unused-but-set-variable \
+-Wno-unused-function \
+-Wno-unused-parameter \
+-Wno-unused-variable \
+-I$(pwd)/local/include/ \
+-I$(pwd)/local/include/sphinxbase \
+-I$(pwd)/local/include/pocketsphinx \
+-I/usr/include" \
+go build
+-o xyz ./
+https://forum.golangbridge.org/t/whats-the-correct-go-build-syntax-to-build-main-module-in-a-subdirectory-without-changing-working-directory/16034
+go build -ldflags "-linkmode external -extldflags -static" -a
+
+go build
+CGO_LDFLAGS= "-lpthread -lm \
+-L./local/lib -lpocketsphinx -lsphinxbase -lsphinxad" \
+
+
+
+
+CGO_CFLAGS="-g -O2 -Wall -Wl,-rpath=$(pwd)/local/lib -fPIC -Wextra \
+-Wno-unused-result \
+-Wno-unused-but-set-variable \
+-Wno-unused-function \
+-Wno-unused-parameter \
+-Wno-unused-variable \
+-I$(pwd)/local/include/ \
+-I$(pwd)/local/include/sphinxbase \
+-I$(pwd)/local/include/pocketsphinx \
+-I/usr/include -lpthread -lm \
+-L./local/lib -lpocketsphinx -lsphinxbase -lsphinxad" \
+go build
