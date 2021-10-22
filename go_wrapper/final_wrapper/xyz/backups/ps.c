@@ -5,7 +5,7 @@
 //#include "ps.h"
 
 const char *jsgf_filename="./../data/_kl_ay_m__from_wrapper_from_c.jsgf";
-const char *wav_filename="./../data/_climb1_colin__from_wrapper_from_c.wav";
+const char *wav_filename="./../data/c_limb1_colin__from_wrapper_from_c.wav";
 const char *params_filename="./../data/_params__from_wrapper_from_c.txt";
 const char *c_filename="./../data/_file_from_c.txt";
 const char *c_binary_filename="./../data/_binary_file_from_c.wav";

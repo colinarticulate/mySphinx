@@ -37,7 +37,7 @@ extern uintptr_t _wrap_Swig_malloc_xyz_2460481bc7b6ab28(swig_intgo arg1);
 extern swig_intgo _wrap_passing_bytes_xyz_2460481bc7b6ab28(swig_type_1 arg1);
 extern swig_intgo _wrap_create_file_params_nofilename_xyz_2460481bc7b6ab28(swig_type_2 arg1);
 extern swig_intgo _wrap_check_string_xyz_2460481bc7b6ab28(swig_type_3 arg1);
-extern swig_intgo _wrap_ps_call_xyz_2460481bc7b6ab28(swig_type_1 arg1, swig_type_1 arg2, swig_type_2 arg3);
+extern swig_intgo _wrap_ps_call_xyz_2460481bc7b6ab28(swig_type_1 arg1, swig_type_1 arg2, swig_type_3 arg3);
 #undef intgo
 */
 import "C"
@@ -105,7 +105,7 @@ func Ps_call(arg1 []byte, arg2 []byte, arg3 []string) (_swig_ret int) {
 	_swig_i_0 := arg1
 	_swig_i_1 := arg2
 	_swig_i_2 := arg3
-	swig_r = (int)(C._wrap_ps_call_xyz_2460481bc7b6ab28((*(*C.swig_type_1)(unsafe.Pointer(&_swig_i_0))), (*(*C.swig_type_1)(unsafe.Pointer(&_swig_i_1))), (*(*C.swig_type_2)(unsafe.Pointer(&_swig_i_2)))))
+	swig_r = (int)(C._wrap_ps_call_xyz_2460481bc7b6ab28((*(*C.swig_type_1)(unsafe.Pointer(&_swig_i_0))), (*(*C.swig_type_1)(unsafe.Pointer(&_swig_i_1))), (*(*C.swig_type_3)(unsafe.Pointer(&_swig_i_2)))))
 	if Swig_escape_always_false {
 		Swig_escape_val = arg1
 	}

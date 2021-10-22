@@ -1,0 +1,2 @@
+filename from go: 
+ Hello World, passing go strings to c strings, yeahhh again!!!

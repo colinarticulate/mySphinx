@@ -218,14 +218,13 @@ static void* Swig_malloc(int c) {
 
 extern int create_file_params_nofilename(int argc, char *argv[]);
 extern int check_string(char *str);
-extern int passing_bytes(char *bytes, int len);
-extern int ps_call(void* jsgf_buffer, int jsgf_buffer_size, void* audio_buffer, int audio_buffer_size, int argc, char *argv[]);
+extern int create_file_params(int argc, char *argv[],  char *filename);
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-void _wrap_Swig_free_xyz_2460481bc7b6ab28(void *_swig_go_0) {
+void _wrap_Swig_free_xyz_6e2cc37f930b21ca(void *_swig_go_0) {
   void *arg1 = (void *) 0 ;
   
   arg1 = *(void **)&_swig_go_0; 
@@ -235,7 +234,7 @@ void _wrap_Swig_free_xyz_2460481bc7b6ab28(void *_swig_go_0) {
 }
 
 
-void *_wrap_Swig_malloc_xyz_2460481bc7b6ab28(intgo _swig_go_0) {
+void *_wrap_Swig_malloc_xyz_6e2cc37f930b21ca(intgo _swig_go_0) {
   int arg1 ;
   void *result = 0 ;
   void *_swig_go_result;
@@ -248,24 +247,7 @@ void *_wrap_Swig_malloc_xyz_2460481bc7b6ab28(intgo _swig_go_0) {
 }
 
 
-intgo _wrap_passing_bytes_xyz_2460481bc7b6ab28(_goslice_ _swig_go_0) {
-  char *arg1 = (char *) 0 ;
-  int arg2 ;
-  int result;
-  intgo _swig_go_result;
-  
-  
-  arg1 = _swig_go_0.array;
-  arg2 = _swig_go_0.len;
-  
-  
-  result = (int)passing_bytes(arg1,arg2);
-  _swig_go_result = result; 
-  return _swig_go_result;
-}
-
-
-intgo _wrap_create_file_params_nofilename_xyz_2460481bc7b6ab28(_goslice_ _swig_go_0) {
+intgo _wrap_create_file_params_nofilename_xyz_6e2cc37f930b21ca(_goslice_ _swig_go_0) {
   int arg1 ;
   char **arg2 ;
   int result;
@@ -305,7 +287,7 @@ intgo _wrap_create_file_params_nofilename_xyz_2460481bc7b6ab28(_goslice_ _swig_g
 }
 
 
-intgo _wrap_check_string_xyz_2460481bc7b6ab28(_gostring_ _swig_go_0) {
+intgo _wrap_check_string_xyz_6e2cc37f930b21ca(_gostring_ _swig_go_0) {
   char *arg1 = (char *) 0 ;
   int result;
   intgo _swig_go_result;
@@ -326,49 +308,47 @@ intgo _wrap_check_string_xyz_2460481bc7b6ab28(_gostring_ _swig_go_0) {
 }
 
 
-intgo _wrap_ps_call_xyz_2460481bc7b6ab28(_goslice_ _swig_go_0, _goslice_ _swig_go_1, _goslice_ _swig_go_2) {
-  char *arg1 = (char *) 0 ;
-  int arg2 ;
-  arg1 = _swig_go_0.array;
-  arg2 = _swig_go_0.len;
-
+intgo _wrap_create_file_params_xyz_6e2cc37f930b21ca(_goslice_ _swig_go_0, _gostring_ _swig_go_1) {
+  int arg1 ;
+  char **arg2 ;
   char *arg3 = (char *) 0 ;
-  int arg4 ;
-  arg3 = _swig_go_0.array;
-  arg4 = _swig_go_0.len;
-
-  int arg5 ;
-  char **arg6 ;
-
   int result;
   intgo _swig_go_result;
   
- 
+  
   int i;
   _gostring_* a;
   
-  arg5 = _swig_go_2.len;
-  a = (_gostring_*) _swig_go_2.array;
-  arg6 = (char **) malloc ((arg5 ) * sizeof (char *));
-
-  for ( i = 0; i < arg5; i++) {
-
+  arg1 = _swig_go_0.len;
+  a = (_gostring_*) _swig_go_0.array;
+  arg2 = (char **) malloc ((arg1 ) * sizeof (char *));
+  for ( i = 0; i < arg1; i++) {
     _gostring_ *ps = &a[i];
-    arg6[i] = (char*)malloc( ((int)(ps->n) + 1)*sizeof(char));
-    memcpy(arg6[i],(char*) ps->p, (int)(ps->n) );
-    arg6[i][ps->n]='\0';
+    arg2[i] = (char*)malloc( ((int)(ps->n) + 1)*sizeof(char));
+    memcpy(arg2[i],(char*) ps->p, (int)(ps->n) );
+    //arg2[i] = (char *) ps->p;
+    arg2[i][ps->n]='\0';
+    // _gostring_ *ps = &a[i];
+    // arg2[i] = (char *) ps->p;
   }
- 
+  //arg2[i] = NULL;
+  //arg2[i] = '\0';
+  _gostring_ *ps = (_gostring_*) &_swig_go_1;
+  arg3 = (char*)malloc( ((int)(ps->n) + 1)*sizeof(char));
+  memcpy(arg3, (char*)(ps->p), (int)(ps->n));
+  arg3[(int)(ps->n)]='\0';
   
   
-  result = (int)ps_call(arg1,arg2,arg3,arg4,arg5,arg6);
+  
+  result = (int)create_file_params(arg1,arg2,arg3);
   _swig_go_result = result; 
   
   
-  for (i = 0; i < arg5; i++) {
-    free(arg6[i]);
+  for (i = 0; i < arg1; i++) {
+    free(arg2[i]);
   }
-  free(arg6);
+  free(arg2);
+  free(arg3);
   
   return _swig_go_result;
 }

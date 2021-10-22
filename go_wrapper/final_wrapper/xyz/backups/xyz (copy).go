@@ -31,13 +31,12 @@ typedef struct { void* array; intgo len; intgo cap; } _goslice_;
 typedef _goslice_ swig_type_1;
 typedef _goslice_ swig_type_2;
 typedef _gostring_ swig_type_3;
-typedef _goslice_ swig_type_4;
-extern void _wrap_Swig_free_xyz_2460481bc7b6ab28(uintptr_t arg1);
-extern uintptr_t _wrap_Swig_malloc_xyz_2460481bc7b6ab28(swig_intgo arg1);
-extern swig_intgo _wrap_passing_bytes_xyz_2460481bc7b6ab28(swig_type_1 arg1);
-extern swig_intgo _wrap_create_file_params_nofilename_xyz_2460481bc7b6ab28(swig_type_2 arg1);
-extern swig_intgo _wrap_check_string_xyz_2460481bc7b6ab28(swig_type_3 arg1);
-extern swig_intgo _wrap_ps_call_xyz_2460481bc7b6ab28(swig_type_1 arg1, swig_type_1 arg2, swig_type_2 arg3);
+extern void _wrap_Swig_free_xyz_cf6b1f9fea9c086b(uintptr_t arg1);
+extern uintptr_t _wrap_Swig_malloc_xyz_cf6b1f9fea9c086b(swig_intgo arg1);
+extern swig_intgo _wrap_passing_bytes_xyz_cf6b1f9fea9c086b(swig_type_1 arg1);
+extern swig_intgo _wrap_create_file_params_nofilename_xyz_cf6b1f9fea9c086b(swig_type_2 arg1);
+extern swig_intgo _wrap_check_string_xyz_cf6b1f9fea9c086b(swig_type_3 arg1);
+extern swig_intgo _wrap_ps_call_xyz_cf6b1f9fea9c086b(swig_type_1 arg1, swig_type_1 arg2, swig_type_3 arg3);
 #undef intgo
 */
 import "C"
@@ -60,20 +59,20 @@ type _ sync.Mutex
 
 func Swig_free(arg1 uintptr) {
 	_swig_i_0 := arg1
-	C._wrap_Swig_free_xyz_2460481bc7b6ab28(C.uintptr_t(_swig_i_0))
+	C._wrap_Swig_free_xyz_cf6b1f9fea9c086b(C.uintptr_t(_swig_i_0))
 }
 
 func Swig_malloc(arg1 int) (_swig_ret uintptr) {
 	var swig_r uintptr
 	_swig_i_0 := arg1
-	swig_r = (uintptr)(C._wrap_Swig_malloc_xyz_2460481bc7b6ab28(C.swig_intgo(_swig_i_0)))
+	swig_r = (uintptr)(C._wrap_Swig_malloc_xyz_cf6b1f9fea9c086b(C.swig_intgo(_swig_i_0)))
 	return swig_r
 }
 
 func Passing_bytes(arg1 []byte) (_swig_ret int) {
 	var swig_r int
 	_swig_i_0 := arg1
-	swig_r = (int)(C._wrap_passing_bytes_xyz_2460481bc7b6ab28(*(*C.swig_type_1)(unsafe.Pointer(&_swig_i_0))))
+	swig_r = (int)(C._wrap_passing_bytes_xyz_cf6b1f9fea9c086b(*(*C.swig_type_1)(unsafe.Pointer(&_swig_i_0))))
 	if Swig_escape_always_false {
 		Swig_escape_val = arg1
 	}
@@ -83,7 +82,7 @@ func Passing_bytes(arg1 []byte) (_swig_ret int) {
 func Create_file_params_nofilename(arg1 []string) (_swig_ret int) {
 	var swig_r int
 	_swig_i_0 := arg1
-	swig_r = (int)(C._wrap_create_file_params_nofilename_xyz_2460481bc7b6ab28(*(*C.swig_type_2)(unsafe.Pointer(&_swig_i_0))))
+	swig_r = (int)(C._wrap_create_file_params_nofilename_xyz_cf6b1f9fea9c086b(*(*C.swig_type_2)(unsafe.Pointer(&_swig_i_0))))
 	if Swig_escape_always_false {
 		Swig_escape_val = arg1
 	}
@@ -93,7 +92,7 @@ func Create_file_params_nofilename(arg1 []string) (_swig_ret int) {
 func Check_string(arg1 string) (_swig_ret int) {
 	var swig_r int
 	_swig_i_0 := arg1
-	swig_r = (int)(C._wrap_check_string_xyz_2460481bc7b6ab28(*(*C.swig_type_3)(unsafe.Pointer(&_swig_i_0))))
+	swig_r = (int)(C._wrap_check_string_xyz_cf6b1f9fea9c086b(*(*C.swig_type_3)(unsafe.Pointer(&_swig_i_0))))
 	if Swig_escape_always_false {
 		Swig_escape_val = arg1
 	}
@@ -105,7 +104,7 @@ func Ps_call(arg1 []byte, arg2 []byte, arg3 []string) (_swig_ret int) {
 	_swig_i_0 := arg1
 	_swig_i_1 := arg2
 	_swig_i_2 := arg3
-	swig_r = (int)(C._wrap_ps_call_xyz_2460481bc7b6ab28((*(*C.swig_type_1)(unsafe.Pointer(&_swig_i_0))), (*(*C.swig_type_1)(unsafe.Pointer(&_swig_i_1))), (*(*C.swig_type_2)(unsafe.Pointer(&_swig_i_2)))))
+	swig_r = (int)(C._wrap_ps_call_xyz_cf6b1f9fea9c086b((*(*C.swig_type_1)(unsafe.Pointer(&_swig_i_0))), (*(*C.swig_type_1)(unsafe.Pointer(&_swig_i_1))), (*(*C.swig_type_2)(unsafe.Pointer(&_swig_i_2)))))
 	if Swig_escape_always_false {
 		Swig_escape_val = arg1
 	}

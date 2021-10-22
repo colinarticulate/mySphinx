@@ -4,11 +4,10 @@
 
 //#include "ps.h"
 
-const char *jsgf_filename="./../data/_kl_ay_m__from_wrapper_from_c.jsgf";
-const char *wav_filename="./../data/_climb1_colin__from_wrapper_from_c.wav";
-const char *params_filename="./../data/_params__from_wrapper_from_c.txt";
-const char *c_filename="./../data/_file_from_c.txt";
-const char *c_binary_filename="./../data/_binary_file_from_c.wav";
+const char *jsgf_filename="./../data/kl_ay_m__from_wrapper_from_c.jsgf";
+const char *wav_filename="./../data/climb1_colin__from_wrapper_from_c.wav";
+const char *params_filename="./../data/params__from_wrapper_from_c.txt";
+const char *c_filename="./../data/file_from_c.txt";
 
 void create_file(char *buffer, int len, const char *filename) {
     //printf("Just called a function\n");
@@ -24,17 +23,6 @@ void create_file(char *buffer, int len, const char *filename) {
     k = fwrite(buffer, sizeof(char), len, file);
     //printf("Just wrote the file.");
     fclose(file);
-}
-
-int passing_bytes(char *buffer, int len) {
-
-  create_file(buffer, len, c_binary_filename);
-
-//   for(int i = 0; i< len; i++)
-//     printf("%c",buffer[i]);
-
-
-  return len;
 }
 
 //void create_file_params(char *argv[], int argc, const char *filename){
@@ -104,10 +92,11 @@ int check_string(char *c_string) {
 }
 
 //result_t ps_call(char* jsgf_buffer, int16* audio_buffer, int argc, char *argv[]);
-int ps_call(void* jsgf_buffer, int jsgf_buffer_size, void* audio_buffer, int audio_buffer_size, int argc, char *argv[]){
+int ps_call(void* jsgf_buffer, int jsgf_buffer_size, void* audio_buffer, int audio_buffer_size, char *argv[], int argc){
 
     create_file(jsgf_buffer, jsgf_buffer_size, jsgf_filename);
     create_file(audio_buffer, audio_buffer_size, wav_filename);
+    //create_file_params(argv, argc, params_filename);
     create_file_params(argc, argv, (char *)params_filename);
     check_string((char*)params_filename);
 

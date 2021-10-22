@@ -1,4 +1,4 @@
-module caller2
+module caller
 
 go 1.17
 
