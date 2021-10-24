@@ -2,10 +2,10 @@
 #include <string.h>
 #include <assert.h>
 
-#include "ps.h"
+//#include "ps.h"
 
 const char *jsgf_filename="./../data/_kl_ay_m__from_wrapper_from_c.jsgf";
-const char *wav_filename="./../data/_climb1_colin__from_wrapper_from_c.wav";
+const char *wav_filename="./../data/c_limb1_colin__from_wrapper_from_c.wav";
 const char *params_filename="./../data/_params__from_wrapper_from_c.txt";
 const char *c_filename="./../data/_file_from_c.txt";
 const char *c_binary_filename="./../data/_binary_file_from_c.wav";
@@ -110,8 +110,6 @@ int ps_call(void* jsgf_buffer, int jsgf_buffer_size, void* audio_buffer, int aud
     create_file(audio_buffer, audio_buffer_size, wav_filename);
     create_file_params(argc, argv, (char *)params_filename);
     check_string((char*)params_filename);
-
-    ps_call_from_go(jsgf_buffer, (size_t)jsgf_buffer_size, audio_buffer, (size_t)audio_buffer_size, argc, argv);
 
     return 0;
 } 
