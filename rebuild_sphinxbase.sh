@@ -19,3 +19,26 @@ make install
 ./autogen.sh --prefix= /home/dbarbera/Repositories/mySphinx/debug/usr/local/ --exec-prefix= /home/dbarbera/Repositories/mySphinx/debug/usr/local/
 make
 make install
+
+
+
+
+//Check options using ./config -help
+--program-suffix=SUFFIX
+
+
+#poscketsphinx non-canonical changing suffix
+./autogen.sh --prefix= /home/dbarbera/Repositories/mySphinx/debug/usr/local/ --exec-prefix= /home/dbarbera/Repositories/mySphinx/debug/usr/local/ --program-suffix=xyz
+make
+make install
+
+
+#poscketsphinx non-canonical changing suffix
+./autogen.sh --prefix= /home/dbarbera/Repositories/mySphinx/xyz/usr/local/ --exec-prefix= /home/dbarbera/Repositories/mySphinx/xyz/usr/local/ --program-suffix="xyz"
+make
+make install
+
+
+./autogen.sh --prefix=/home/dbarbera/Repositories/mySphinx/xyz/usr/local/ --program-suffix=_xyz
+make
+make install

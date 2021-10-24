@@ -115,3 +115,58 @@ CGO_CFLAGS="-g -O2 -Wall -Wl,-rpath=$(pwd)/local/lib -fPIC -Wextra \
 -I/usr/include -lpthread -lm \
 -L./local/lib -lpocketsphinx -lsphinxbase -lsphinxad" \
 go build
+
+
+
+CGO_CFLAGS="-g -O2 -Wall -Wl,-rpath=$(pwd)/local/lib \
+-Wno-unused-result \
+-Wno-unused-but-set-variable \
+-Wno-unused-function \
+-Wno-unused-parameter \
+-Wno-unused-variable \
+-I$(pwd)/local/include/ \
+-I$(pwd)/local/include/sphinxbase \
+-I$(pwd)/local/include/pocketsphinx \
+-I/usr/include -lpthread -lm" \
+go build
+
+
+Minimal to still get stuck at linking
+CGO_CFLAGS="-g -O2 -Wall -Wl,-rpath=$(pwd)/local/lib \
+-Wno-unused-result \
+-Wno-unused-but-set-variable \
+-Wno-unused-function \
+-Wno-unused-parameter \
+-Wno-unused-variable \
+-I$(pwd)/local/include/ \
+-I$(pwd)/local/include/sphinxbase \
+-I$(pwd)/local/include/pocketsphinx" \
+go build
+
+
+
+This worked!!!!!!!!:
+CGO_CFLAGS="-g -O2 -Wall -Wl,-rpath=$(pwd)/local/lib \
+-Wno-unused-result \
+-Wno-unused-but-set-variable \
+-Wno-unused-function \
+-Wno-unused-parameter \
+-Wno-unused-variable \
+-I$(pwd)//usr/local/include/ \
+-I$(pwd)/usr/local/include/sphinxbase \
+-I$(pwd)/usr/local/include/pocketsphinx" \
+CGO_LDFLAGS="-L$(pwd)/usr/local/lib -lpocketsphinx -lsphinxbase -lsphinxad" \
+go build
+
+so, if that worked then this too:
+CGO_CFLAGS="-g -O2 -Wall -Wl,-rpath=$(pwd)/local/lib \
+-Wno-unused-result \
+-Wno-unused-but-set-variable \
+-Wno-unused-function \
+-Wno-unused-parameter \
+-Wno-unused-variable \
+-I$(pwd)//usr/local/include/ \
+-I$(pwd)/usr/local/include/sphinxbase \
+-I$(pwd)/usr/local/include/pocketsphinx" \
+CGO_LDFLAGS="-L$(pwd)/usr/local/lib -lpocketsphinx -lsphinxbase -lsphinxad" \
+go install

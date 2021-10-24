@@ -1,7 +1,9 @@
 dnl Welcome to the Sphinx automated build system.
 dnl try not to hurt yourself ;)
 
-AC_INIT([sphinxbase], 5prealpha)
+dnl trying to modify library name so as not to mix different Versions
+dnl AC_INIT([sphinxbase], 5prealpha)
+AC_INIT([sphinxbase_xyz], 5prealpha)
 AC_CONFIG_HEADERS([include/config.h include/sphinx_config.h])
 AM_INIT_AUTOMAKE([no-define foreign])
 AC_CONFIG_MACRO_DIR([m4])

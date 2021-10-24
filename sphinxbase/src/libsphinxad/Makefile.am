@@ -7,7 +7,7 @@ lib_LTLIBRARIES = libsphinxad.la
 #
 libsphinxad_la_LDFLAGS = -version-info 3:0:0
 
-libsphinxad_la_SOURCES = 
+libsphinxad_la_SOURCES =
 
 EXTRA_libsphinxad_la_SOURCES = \
 	ad_base.c \

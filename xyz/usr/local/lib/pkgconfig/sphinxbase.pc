@@ -1,0 +1,14 @@
+prefix=/home/dbarbera/Repositories/mySphinx/xyz/usr/local
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+libs=-lpthread -lm 
+datadir=${prefix}/share/sphinxbase_xyz
+
+Name: SphinxBase
+Description: Shared components for Sphinx speech recognition
+Version: 5prealpha
+URL: http://www.cmusphinx.org/
+Libs: -L${libdir} -lsphinxbasexyz -lsphinxadxyz -lpthread -lm 
+Libs.private: ${libs}
+Cflags: -I${includedir} -I${includedir}/sphinxbasexyz
