@@ -7,9 +7,12 @@
             // "${workspaceFolder}/pocketsphinx/include",
             // "${workspaceFolder}/sphinxbase/include",
             // "${workspaceFolder}/sphinxbase/include/sphinxbase"
-            "-I${fileDirname}/sphinxbase/include",
-            "-I${fileDirname}/sphinxbase/include/sphinxbase",
-            "-I${fileDirname}/pocketsphinx/include"
+            // "${fileDirname}/sphinxbase/include",
+            // "${fileDirname}/sphinxbase/include/sphinxbase",
+            // "${fileDirname}/pocketsphinx/include"
+            "/home/dbarbera/Repositories/mySphinx/sphinxbase/include",
+            "/home/dbarbera/Repositories/mySphinx/sphinxbase/include/sphinxbase",
+            "/home/dbarbera/Repositories/mySphinx/pocketsphinx/include"
         ],
         "myCompilerPath": "/usr/bin/gcc" //"$(which gcc)"//"/usr/local/bin/gcc"
     },
