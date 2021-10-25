@@ -8,10 +8,15 @@
 #include <sys/select.h>
 #endif
 
-#include "sphinxbase/err.h"
-#include "sphinxbase/ad.h"
+#include <sphinxbase/err.h>
+#include <sphinxbase/ad.h>
 
 #include <pocketsphinx.h>
+
+// #include "sphinxbase/include/sphinxbase/err.h"
+// #include "sphinxbase/include/sphinxbase/ad.h"
+
+// #include "pocketsphinx/include/pocketsphinx.h"
 
 //#include "continuous.h"
 
@@ -121,6 +126,11 @@ recognize_from_buffered_file(void* audio_buffer, size_t bsize)
     // }
     FILE* file = NULL;
     file = fmemopen(audio_buffer, bsize ,"rb");
+    FILE* fresult = NULL;
+    fresult = fopen("./result.txt","w");
+    if (fresult == NULL ) {
+        printf("Couldn't open file for results.\n");
+    }
     
     //------------------- Needs better checking for wav format -----------------------------------------
     if (strlen(fname) > 4 && strcmp(fname + strlen(fname) - 4, ".wav") == 0) {
@@ -150,6 +160,7 @@ recognize_from_buffered_file(void* audio_buffer, size_t bsize)
             hyp = ps_get_hyp(ps, NULL);
             if (hyp != NULL)
         	printf("%s\n", hyp);
+            
             if (print_times)
         	print_word_times();
             fflush(stdout);
@@ -163,12 +174,13 @@ recognize_from_buffered_file(void* audio_buffer, size_t bsize)
         hyp = ps_get_hyp(ps, NULL);
         if (hyp != NULL) {
     	    printf("%s\n", hyp);
+            fprintf(fresult, "%s\n", hyp);
     	    if (print_times) {
     		print_word_times();
 	    }
 	}
     }
-    
+    fclose(fresult);
     fclose(file);
 }
 
@@ -313,6 +325,37 @@ recognize_from_microphone()
     ad_close(ad);
 }
 
+
+// // //void retrieve_results(ps_decoder_t *ps){
+void retrieve_results(){
+    /* Log a backtrace if requested. */
+    if (cmd_ln_boolean_r(config, "-backtrace")) {
+        FILE *fresult=NULL;
+        fresult=fopen("result.txt","w");
+        if (fresult==NULL){
+            printf("Couldnt open file for results.");
+        }
+        ps_seg_t *seg;
+        int32 score;
+
+        const char *hyp = ps_get_hyp(ps, &score);
+        
+        if (hyp != NULL) {
+    	    fprintf(fresult, "%s (%d)\n", hyp, score);
+    	    fprintf(fresult, "%-20s %-5s %-5s\n", "word", "start", "end");
+
+    	    for ( seg = ps_seg_iter(ps); seg; seg = ps_seg_next(seg) ) {
+                int sf, ef;
+                char const *word = ps_seg_word(seg);
+                ps_seg_frames(seg, &sf, &ef);
+                fprintf(fresult, "%-20s %-5d %-5d\n", word, sf, ef);
+    	    }
+        }
+        fclose(fresult);
+    }
+}
+
+
 int ps_call_from_go(void* jsgf_buffer, size_t jsgf_buffer_size, void* audio_buffer, size_t audio_buffer_size, int argc, char *argv[])
 { 
     char const *cfg;
@@ -347,6 +390,28 @@ int ps_call_from_go(void* jsgf_buffer, size_t jsgf_buffer_size, void* audio_buff
     } else {
         recognize_from_file();
     }
+
+    retrieve_results();
+    /* Log a backtrace if requested. */
+    // if (cmd_ln_boolean_r(config, "-backtrace")) {
+    //     ps_seg_t *seg;
+    //     int32 score;
+
+    //     const char *hyp = ps_get_hyp(ps, &score);
+        
+    //     if (hyp != NULL) {
+    // 	    E_INFO("%s (%d)\n", hyp, score);
+    // 	    E_INFO_NOFN("%-20s %-5s %-5s\n", "word", "start", "end");
+
+    // 	    for ( seg = ps_seg_iter(ps); seg; seg = ps_seg_next(seg) ) {
+    //             int sf, ef;
+    //             char const *word = ps_seg_word(seg);
+    //             ps_seg_frames(seg, &sf, &ef);
+    //             E_INFO_NOFN("%-20s %-5d %-5d\n", word, sf, ef);
+    // 	    }
+    //     }
+    // }
+
 
     ps_free(ps);
     cmd_ln_free_r(config);

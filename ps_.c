@@ -22,7 +22,7 @@ char *argv_[] = {
             "-fwdflat", "no",
             "-hmm", "/home/dbarbera/Repositories/mySphinx/data/en-us/en-us",
             "-infile", "/home/dbarbera/Repositories/mySphinx/data/climb1_colin.wav",
-            "-jsgf", "/home/dbarbera/Repositories/sphinx/data/kl_ay_m.jsgf",
+            "-jsgf", "/home/dbarbera/Repositories/mySphinx/data/kl_ay_m.jsgf",
             "-logfn", "/home/dbarbera/Repositories/mySphinx/data/output.log",
             "-lpbeam", "1e-10000",
             "-lponlybeam", "1e-10000",

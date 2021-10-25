@@ -11,7 +11,7 @@ const char *params_filename="./../data/params__from_wrapper_from_c.txt";
 void create_file(char *buffer, int len, const char *filename) {
     //printf("Just called a function\n");
     FILE *file;// = NULL;
-    int k = 0;
+
     //printf("About to open a file for writing.\n");
     file =fopen(filename, "wb");
     if (file == NULL) {
@@ -19,7 +19,7 @@ void create_file(char *buffer, int len, const char *filename) {
 
     }
     //printf("About to write the file.");
-    k = fwrite(buffer, sizeof(char), len, file);
+    fwrite(buffer, sizeof(char), len, file);
     //printf("Just wrote the file.");
     fclose(file);
 }
@@ -27,7 +27,7 @@ void create_file(char *buffer, int len, const char *filename) {
 void create_file_params(char *argv[], int argc, const char *filename){
         //printf("Just called a function\n");
     FILE *file;// = NULL;
-    int k = 0;
+
     //printf("About to open a file for writing.\n");
     file =fopen(filename, "wb");
     if (file == NULL) {
