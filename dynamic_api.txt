@@ -1,0 +1,93 @@
+Common to dynamic and static
+gcc -g -O2 -Wall -fPIC -Wl,rpath=/home/dbarbera/Repositories/mySphinx/debug/usr/local/lib \
+-Wno-unused-result \
+-Wno-unused-but-set-variable \
+-Wno-unused-function \
+-Wno-unused-parameter \
+-Wno-unused-variable \
+-I/home/dbarbera/Repositories/mySphinx/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/sphinxbase \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/pocketsphinx \
+-L/home/dbarbera/Repositories/mySphinx/debug/usr/local/lib -lpocketsphinx -lsphinxbase -lsphinxad \
+-c xyz.c -o xyz.o
+
+gcc -g -O2 xyz.o -shared -o libxyz.so
+
+
+Using the library in c:
+gcc -g -O2 \
+-Wno-unused-result \
+-I/home/dbarbera/Repositories/mySphinx/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/sphinxbase \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/pocketsphinx \
+-L/home/dbarbera/Repositories/mySphinx/debug/usr/local/lib -lpocketsphinx -lsphinxbase -lsphinxad
+-o c_caller ps_.c
+
+
+Order matters!!!
+https://stackoverflow.com/questions/57338722/why-does-the-compiler-throw-undefined-reference-to-despite-providing-all-n
+This works:
+gcc -g -O2 -o c_caller ps_.c \
+-Wno-unused-result \
+-I/home/dbarbera/Repositories/mySphinx/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/sphinxbase \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/pocketsphinx \
+-L/home/dbarbera/Repositories/mySphinx/debug/usr/local/lib -lpocketsphinx -lsphinxbase -lsphinxad
+but can't find references in runtime :(
+
+
+gcc -g -O2 -o c_caller ps_.c \
+-Wl,-Bstatic -L/home/dbarbera/Repositories/mySphinx/debug/usr/local/lib -lpocketsphinx -lsphinxbase -lsphinxad \
+-Wno-unused-result \
+-I/home/dbarbera/Repositories/mySphinx/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/sphinxbase \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/pocketsphinx
+
+gcc -g -O2 -o c_caller ps_.c \
+-Wl,-Bstatic -L/home/dbarbera/Repositories/mySphinx/debug/usr/local/lib -lpocketsphinx -lsphinxbase -lsphinxad \
+-Wno-unused-result \
+-I/home/dbarbera/Repositories/mySphinx/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/sphinxbase \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/pocketsphinx \
+-L/home/dbarbera/Repositories/mySphinx/debug/usr/local/lib -lpocketsphinx -lsphinxbase -lsphinxad
+
+This compiles but fails at runtime
+gcc -g -O2 -o c_caller ps_.c \
+-Wl,-Bdynamic -L/home/dbarbera/Repositories/mySphinx/debug/usr/local/lib -lpocketsphinx -lsphinxbase -lsphinxad \
+-Wno-unused-result \
+-I/home/dbarbera/Repositories/mySphinx/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/sphinxbase \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/pocketsphinx \
+-L/home/dbarbera/Repositories/mySphinx/debug/usr/local/lib -lpocketsphinx -lsphinxbase -lsphinxad
+
+and then:
+>$
+LD_PRELOAD="-L/home/dbarbera/Repositories/mySphinx/debug/usr/local/lib -lpocketsphinx -lsphinxbase -lsphinxad " \
+c_caller
+ERROR: ld.so: object '-L/home/dbarbera/Repositories/mySphinx/debug/usr/local/lib' from LD_PRELOAD cannot be preloaded (cannot open shared object file): ignored.
+ERROR: ld.so: object '-lpocketsphinx' from LD_PRELOAD cannot be preloaded (cannot open shared object file): ignored.
+ERROR: ld.so: object '-lsphinxbase' from LD_PRELOAD cannot be preloaded (cannot open shared object file): ignored.
+ERROR: ld.so: object '-lsphinxad' from LD_PRELOAD cannot be preloaded (cannot open shared object file): ignored.
+
+This compiles but fails at runtime
+gcc -g -O2 -o c_caller ps_.c \
+-Wno-unused-result \
+-I/home/dbarbera/Repositories/mySphinx/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/sphinxbase \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/pocketsphinx \
+-L/home/dbarbera/Repositories/mySphinx/debug/usr/local/lib -lpocketsphinx -lsphinxbase -lsphinxad
+
+but can be fixed preloading the libraries (not ideal) and then:
+>$
+LD_PRELOAD="$(pwd)/debug/usr/local/lib/libpocketsphinx.so $(pwd)/debug/usr/local/lib/libsphinxbase.so $(pwd)/debug/usr/local/lib/libsphinxad.so" \
+./c_caller
+
+Important to combine static and dynamic:
+https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/developer_guide/gcc-using-libraries

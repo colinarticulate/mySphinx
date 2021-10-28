@@ -1,0 +1,322 @@
+LD_PRELOAD="$(pwd)/debug/usr/local/include/ \
+$(pwd)/debug/usr/local/include/sphinxbase \
+$(pwd)/debug/usr/local/include/pocketsphinx " \
+gcc -g -O2 -Wall -Wl, -Bstatic \
+-Wno-unused-result \
+-Wno-unused-but-set-variable \
+-Wno-unused-function \
+-Wno-unused-parameter \
+-Wno-unused-variable \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/sphinxbase \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/pocketsphinx \
+-L/home/dbarbera/Repositories/mySphinx/debug/usr/local/lib -l:libpocketsphinx.so.3.0.0 -l:libsphinxbase.so.3.0.0 -l:libsphinxad.so.3.0.0 \
+./ps_h.c -o ./xyz.o
+
+ar arcs xyz.a xyz.o
+
+
+
+
+
+
+
+Idea:
+gcc -g -O2 ps_h.c -c -fPIC -o xyz.o
+ar rcs libxyz.a xyz.o
+
+
+gcc -g -O2 -Wall -Wl, -Bstatic -fPIC \
+-Wno-unused-result \
+-Wno-unused-but-set-variable \
+-Wno-unused-function \
+-Wno-unused-parameter \
+-Wno-unused-variable \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/sphinxbase \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/pocketsphinx \
+-L/home/dbarbera/Repositories/mySphinx/debug/usr/local/lib -l:libpocketsphinx.so.3.0.0 -l:libsphinxbase.so.3.0.0 -l:libsphinxad.so.3.0.0 \
+-c ps_h.c -o xyz.o
+
+Again with better design:
+>$
+gcc -c xyz.c -o xyz.o -g -O2 -Wall -Wl, -Bstatic -fPIC \
+-Wno-unused-result \
+-Wno-unused-but-set-variable \
+-Wno-unused-function \
+-Wno-unused-parameter \
+-Wno-unused-variable \
+-I/home/dbarbera/Repositories/mySphinx/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/sphinxbase \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/pocketsphinx \
+-L/home/dbarbera/Repositories/mySphinx/debug/usr/local/lib -l:libpocketsphinx.so.3.0.0 -l:libsphinxbase.so.3.0.0 -l:libsphinxad.so.3.0.0
+
+gcc -c xyz.c -o xyz.o -g -O2 -Wall -Wl, -Bstatic -fPIC \
+-Wno-unused-result \
+-Wno-unused-but-set-variable \
+-Wno-unused-function \
+-Wno-unused-parameter \
+-Wno-unused-variable \
+-I/home/dbarbera/Repositories/mySphinx/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/sphinxbase \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/pocketsphinx \
+-L/home/dbarbera/Repositories/mySphinx/debug/usr/local/lib -l:libpocketsphinx.a -l:libsphinxbase.a -l:libsphinxad.a
+
+This worked:
+>$
+gcc -c xyz.c -o xyz.o \
+-g -O2 -Wall \
+-Wl,-Bstatic -L/home/dbarbera/Repositories/mySphinx/debug/usr/local/lib -lpocketsphinx -lsphinxbase -lsphinxad \
+-fPIC \
+-Wno-unused-result \
+-Wno-unused-but-set-variable \
+-Wno-unused-function \
+-Wno-unused-parameter \
+-Wno-unused-variable \
+-I/home/dbarbera/Repositories/mySphinx/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/sphinxbase \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/pocketsphinx
+
+
+gcc -c xyz.c -o xyz.o -g -O2 -Wall -Wl, -Bstatic \
+-Wno-unused-result \
+-Wno-unused-but-set-variable \
+-Wno-unused-function \
+-Wno-unused-parameter \
+-Wno-unused-variable \
+-I/home/dbarbera/Repositories/mySphinx/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/sphinxbase \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/pocketsphinx \
+-L/home/dbarbera/Repositories/mySphinx/debug/usr/local/lib -l:libpocketsphinx.a -l:libsphinxbase.a -l:libsphinxad.a
+
+
+>$
+ar rcs libxyz.a xyz.o
+ar c libxyz.a xyz.o
+
+more on ar:
+Merging static libraries into one:
+https://stackoverflow.com/questions/3821916/how-to-merge-two-ar-static-libraries-into-one
+for all libs (pocketsphinx, sphinxbase and sphinxad)do it in a separate folder, ex: /o/
+ar -x /home/dbarbera/Repositories/mySphinx/debug/usr/local/lib/libpocketsphinx.a
+ar -x /home/dbarbera/Repositories/mySphinx/debug/usr/local/lib/libsphinxbase.a
+ar -x /home/dbarbera/Repositories/mySphinx/debug/usr/local/lib/libsphinxad.a
+ar rcs libxyz.a *.o
+
+ar rcs libxyz.a ./o/*.o
+
+
+
+
+Using the library in c:
+gcc -o c_caller ps_.c -g -O2  -static \
+-Wno-unused-result \
+-I/home/dbarbera/Repositories/mySphinx/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/sphinxbase \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/pocketsphinx \
+-L/home/dbarbera/Repositories/mySphinx -l:libxyz.a
+
+gcc -o c_caller ps_.c -g -O2  -Wl,-Bstatic \
+-Wno-unused-result \
+-I/home/dbarbera/Repositories/mySphinx/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/sphinxbase \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/pocketsphinx \
+-L/home/dbarbera/Repositories/mySphinx -l:libxyz.a
+
+This worked but then a together with ar -rcs libxyz.a xyz.o
+https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/developer_guide/gcc-using-libraries
+gcc -o c_caller ps_.c -g -O2  -Wl,-Bstatic -L. -lxyz \
+-Wno-unused-result \
+-I/home/dbarbera/Repositories/mySphinx/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/sphinxbase \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/pocketsphinx
+
+gcc -o c_caller ps_.c -g -O2 \
+-Wno-unused-result \
+-I/home/dbarbera/Repositories/mySphinx/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/sphinxbase \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/pocketsphinx
+
+
+
+ideally:
+gcc -g -O2 -o c_caller ps_.c \
+-Wno-unused-result \
+-I/home/dbarbera/Repositories/mySphinx \
+-L. -l:libxyz.a
+
+gcc -g -O2 -o c_caller ps_.c \
+-L. -l:libxyz.a
+
+
+
+
+
+Still things are linked dynamically:
+/usr/bin/ld: /tmp/cci6ViKL.o: in function `print_word_times':
+/home/dbarbera/Repositories/mySphinx/xyz.h:66: undefined reference to `cmd_ln_int_r'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:67: undefined reference to `ps_seg_iter'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:72: undefined reference to `ps_seg_frames'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:73: undefined reference to `ps_seg_prob'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:74: undefined reference to `ps_get_logmath'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:74: undefined reference to `logmath_exp'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:75: undefined reference to `ps_seg_word'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:77: undefined reference to `ps_seg_next'
+/usr/bin/ld: /tmp/cci6ViKL.o: in function `recognize_from_microphone':
+/home/dbarbera/Repositories/mySphinx/xyz.h:289: undefined reference to `cmd_ln_float_r'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:288: undefined reference to `cmd_ln_str_r'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:288: undefined reference to `ad_open_dev'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:292: undefined reference to `ad_start_rec'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:295: undefined reference to `ps_start_utt'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:298: undefined reference to `err_msg'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:307: undefined reference to `err_msg'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:301: undefined reference to `ad_read'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:303: undefined reference to `ps_process_raw'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:304: undefined reference to `ps_get_in_speech'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:311: undefined reference to `ps_end_utt'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:312: undefined reference to `ps_get_hyp'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:318: undefined reference to `ps_start_utt'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:321: undefined reference to `err_msg'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:293: undefined reference to `err_msg'
+/usr/bin/ld: /tmp/cci6ViKL.o: in function `check_wav_header':
+/home/dbarbera/Repositories/mySphinx/xyz.h:100: undefined reference to `err_msg'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:91: undefined reference to `err_msg'
+/usr/bin/ld: /tmp/cci6ViKL.o: in function `recognize_from_buffered_file':
+/home/dbarbera/Repositories/mySphinx/xyz.h:118: undefined reference to `cmd_ln_int_r'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:122: undefined reference to `cmd_ln_str_r'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:149: undefined reference to `ps_start_utt'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:153: undefined reference to `ps_process_raw'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:154: undefined reference to `ps_get_in_speech'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:159: undefined reference to `ps_end_utt'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:160: undefined reference to `ps_get_hyp'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:168: undefined reference to `ps_start_utt'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:172: undefined reference to `ps_end_utt'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:174: undefined reference to `ps_get_hyp'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:140: undefined reference to `cmd_ln_float_r'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:141: undefined reference to `err_msg'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:145: undefined reference to `err_msg'
+/usr/bin/ld: /tmp/cci6ViKL.o: in function `recognize_from_file':
+/home/dbarbera/Repositories/mySphinx/xyz.h:198: undefined reference to `cmd_ln_int_r'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:200: undefined reference to `cmd_ln_str_r'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:218: undefined reference to `ps_start_utt'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:222: undefined reference to `ps_process_raw'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:223: undefined reference to `ps_get_in_speech'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:228: undefined reference to `ps_end_utt'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:229: undefined reference to `ps_get_hyp'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:236: undefined reference to `ps_start_utt'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:240: undefined reference to `ps_end_utt'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:242: undefined reference to `ps_get_hyp'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:210: undefined reference to `cmd_ln_float_r'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:211: undefined reference to `err_msg'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:202: undefined reference to `err_msg_system'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:215: undefined reference to `err_msg'
+/usr/bin/ld: /tmp/cci6ViKL.o: in function `retrieve_results':
+/home/dbarbera/Repositories/mySphinx/xyz.h:332: undefined reference to `cmd_ln_int_r'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:341: undefined reference to `ps_get_hyp'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:347: undefined reference to `ps_seg_iter'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:349: undefined reference to `ps_seg_word'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:350: undefined reference to `ps_seg_frames'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:347: undefined reference to `ps_seg_next'
+/usr/bin/ld: /tmp/cci6ViKL.o: in function `ps_call':
+/home/dbarbera/Repositories/mySphinx/xyz.h:363: undefined reference to `cmd_ln_parse_r'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:366: undefined reference to `cmd_ln_str_r'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:367: undefined reference to `cmd_ln_parse_file_r'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:370: undefined reference to `cmd_ln_str_r'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:376: undefined reference to `ps_default_search_args'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:377: undefined reference to `ps_init_buffered'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:383: undefined reference to `err_msg'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:385: undefined reference to `cmd_ln_str_r'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:416: undefined reference to `ps_free'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:417: undefined reference to `cmd_ln_free_r'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:370: undefined reference to `cmd_ln_int_r'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:371: undefined reference to `err_msg'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:372: undefined reference to `cmd_ln_free_r'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:388: undefined reference to `cmd_ln_int_r'
+/usr/bin/ld: /home/dbarbera/Repositories/mySphinx/xyz.h:379: undefined reference to `cmd_ln_free_r'
+/usr/bin/ld: /tmp/cci6ViKL.o: in function `create_buffer':
+/home/dbarbera/Repositories/mySphinx/ps_.c:70: undefined reference to `err_msg_system'
+
+
+Using the library in c:
+This doesnt work:
+gcc -g -O2 \
+-Wno-unused-result \
+-I/home/dbarbera/Repositories/mySphinx/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/sphinxbase \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/pocketsphinx \
+-L/home/dbarbera/Repositories/mySphinx/debug/usr/local/lib -lpocketsphinx -lsphinxbase -lsphinxad \
+-o c_caller ps_.c
+
+gcc -g -O2 \
+-Wno-unused-result \
+-I/home/dbarbera/Repositories/mySphinx/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/sphinxbase \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/pocketsphinx \
+-L/home/dbarbera/Repositories/mySphinx -lxyz \
+-L/home/dbarbera/Repositories/mySphinx/debug/usr/local/lib -lpocketsphinx -lsphinxbase -lsphinxad \
+-o c_caller ps_.c
+
+
+
+Try other:
+
+Again with better design:
+>$
+gcc -g -O2 -Wall -Wl, -Bstatic \
+-Wno-unused-result \
+-Wno-unused-but-set-variable \
+-Wno-unused-function \
+-Wno-unused-parameter \
+-Wno-unused-variable \
+-I/home/dbarbera/Repositories/mySphinx/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/sphinxbase \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/pocketsphinx \
+-L/home/dbarbera/Repositories/mySphinx/debug/usr/local/lib -l:libpocketsphinx.so.3.0.0 -l:libsphinxbase.so.3.0.0 -l:libsphinxad.so.3.0.0 \
+-c xyz.c -o xyz.o
+
+>$
+ar rcs libxyz.a xyz.o
+
+Using the library in c:
+gcc -g -O2 -Wl,-Bstatic \
+-Wno-unused-result \
+-I/home/dbarbera/Repositories/mySphinx/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/sphinxbase \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/pocketsphinx \
+-L. -l:libxyz.a \
+-L/home/dbarbera/Repositories/mySphinx/debug/usr/local/lib -lpocketsphinx -lsphinxbase -lsphinxad \
+-o c_caller ps_.c
+>>/usr/bin/ld: cannot find -lgcc_s
+
+gcc -g -O2 -Wl,-Bstatic \
+-Wno-unused-result \
+-I/home/dbarbera/Repositories/mySphinx/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/sphinxbase \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/pocketsphinx \
+-L. -l:libxyz.a \
+-L/home/dbarbera/Repositories/mySphinx/debug/usr/local/lib -lpocketsphinx -lsphinxbase -lsphinxad \
+-L/usr/local -lgcc_s -l:libgcc.a \
+-o c_caller ps_.c
+
+
+gcc -o c_caller ps_.c -g -O2 -Wl,-Bstatic \
+-Wno-unused-result \
+-I/home/dbarbera/Repositories/mySphinx/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/ \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/sphinxbase \
+-I/home/dbarbera/Repositories/mySphinx/debug/usr/local/include/pocketsphinx \
+-L. -l:libxyz.a \
+-L/home/dbarbera/Repositories/mySphinx/debug/usr/local/lib -l:libpocketsphinx.a -l:libsphinxbase.a -l:libsphinxad.a

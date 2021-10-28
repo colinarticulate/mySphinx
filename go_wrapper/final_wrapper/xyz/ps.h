@@ -11,7 +11,7 @@
 #include <sphinxbase/err.h>
 #include <sphinxbase/ad.h>
 
-#include <pocketsphinx.h>
+#include "pocketsphinx.h"
 
 // #include "sphinxbase/include/sphinxbase/err.h"
 // #include "sphinxbase/include/sphinxbase/ad.h"

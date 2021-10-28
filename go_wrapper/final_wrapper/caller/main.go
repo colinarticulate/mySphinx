@@ -3,7 +3,9 @@ package main
 import (
 	"fmt"
 	"os"
-	"xyz"
+	//"os"
+	//"xyz"
+	//"github.com/davidbarbera/articulate-pocketsphinx-go/xyz"
 )
 
 func check(e error) {
@@ -12,7 +14,7 @@ func check(e error) {
 	}
 }
 
-func main() {
+func main_() {
 	//Data:
 	//Filenames
 	filename_jsgf := "./../data/kl_ay_m.jsgf"
@@ -59,6 +61,9 @@ func main() {
 		"-wip", "0.5",
 		"-wlen", "0.016"}
 
+	few_strings := []string{"NULL", "null", "NULL", "null", "NULL", "null", "NULL", "null", "NULL",
+		"null", "NULL", "null", "NULL", "null", "NULL", "null", "NULL", "null", "NULL", "null", "NULL", "null"}
+
 	jsgf_buffer, err := os.ReadFile(filename_jsgf)
 	check(err)
 	audio_buffer, err := os.ReadFile(filename_wav)
@@ -79,5 +84,24 @@ func main() {
 	//xyz.Check_string("Hello World, passing go strings to c strings, yeahhh again and again!!!")
 	//xyz.Passing_bytes(audio_buffer)
 	//xyz.Create_file_params(params, "./../data/params_file__from_c.txt")
-	xyz.Ps_call(jsgf_buffer, audio_buffer, params)
+	// xyz.Ps_call(jsgf_buffer, audio_buffer, params)
+
+	// fmt.Printf("Results -> type: %T, length: %s\n", few_strings, len(few_strings))
+	// fmt.Printf("Params: %T, %d\n", params, len(params))
+
+	// xyz.Modify_strings(few_strings)
+
+	n := len(few_strings)
+
+	fmt.Printf("Results -> type: %T, length: %d\n", few_strings, len(few_strings))
+	for i := 0; i < n; i++ {
+		fmt.Println(few_strings[i])
+	}
+
+	// fmt.Println("this is a tab \t\t\t, and this a \n.")
+
+	// test := []string{"sil kl ay m v b sil (-3641)*word,start,end*sil,3,90*(NULL),90,90*kl,91,109*(NULL),109,109*ay,110,147*(NULL),147,147*m,148,165*(NULL),165,165*v,166,172*b,173,176*sil,177,245**0000000000000000000000000000000000000"}
+
+	// raw := strings.split(test[0], "**")
+
 }

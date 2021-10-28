@@ -42,3 +42,19 @@ make install
 ./autogen.sh --prefix=/home/dbarbera/Repositories/mySphinx/xyz/usr/local/ --program-suffix=_xyz
 make
 make install
+
+
+
+#---------------------- other installations
+
+./autogen.sh --prefix= /home/dbarbera/Installation_Tests/pocketsphinxxyz/pocketsphinx/debug/usr/local/
+make
+make install
+
+
+
+biblio:
+
+Autotools myth buster:
+https://autotools.io/index.html
+https://gnu.huihoo.org/automake-1.5/html_node/automake_toc.html#TOC1

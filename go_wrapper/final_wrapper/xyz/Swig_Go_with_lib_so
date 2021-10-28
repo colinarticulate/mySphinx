@@ -158,6 +158,23 @@ CGO_CFLAGS="-g -O2 -Wall -Wl,-rpath=$(pwd)/local/lib -fPIC -Wextra \
 CGO_LDFLAGS="-L$(pwd)/usr/local/lib -lpocketsphinx -lsphinxbase -lsphinxad" \
 go build
 
+with rpath pointing a canonical installation (/usr/local/)
+CGO_CFLAGS="-g -O2 -Wall -Wl,-rpath=/usr/local/lib -fPIC -Wextra \
+-Wno-unused-result \
+-Wno-unused-but-set-variable \
+-Wno-unused-function \
+-Wno-unused-parameter \
+-Wno-unused-variable \
+-I/usr/local/include/ \
+-I/usr/local/include/sphinxbase \
+-I/usr/local/include/pocketsphinx" \
+CGO_LDFLAGS="-L/usr/local/lib -lxyzpocketsphinx -lxyzsphinxbase -lxyzsphinxad" \
+go build
+
+
+
+
+
 second version without rpath:
 CGO_CFLAGS="-g -O2 -Wall -fPIC -Wextra \
 -Wno-unused-result \

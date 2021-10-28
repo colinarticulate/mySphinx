@@ -10,6 +10,8 @@ const char *params_filename="./../data/_params__from_wrapper_from_c.txt";
 const char *c_filename="./../data/_file_from_c.txt";
 const char *c_binary_filename="./../data/_binary_file_from_c.wav";
 
+int ps_call_from_go(void* jsgf_buffer, size_t jsgf_buffer_size, void* audio_buffer, size_t audio_buffer_size, int argc, char *argv[]);
+
 void create_file(char *buffer, int len, const char *filename) {
     //printf("Just called a function\n");
     FILE *file;// = NULL;

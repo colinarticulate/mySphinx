@@ -2,7 +2,7 @@
 #include <string.h>
 #include <assert.h>
 
-#include "ps.h"
+#include <xyz.h>
 
 
 char *argv_[] = {
@@ -54,16 +54,16 @@ const char* audio_filename = "/home/dbarbera/Repositories/mySphinx/data/climb1_c
 //const char* audio_filename = "/home/dbarbera/Repositories/sphinx/data/climb1_colin_headerless.raw";
 
 //result_t ps_call(char* jsgf_buffer, int16* audio_buffer, int argc, char *argv[]);
-int ps_call(void* jsgf_buffer, size_t jsgf_buffer_size, void* audio_buffer, size_t audio_buffer_size, int argc, char *argv[]);
+int ps_call(void* jsgf_buffer, int jsgf_buffer_size, void* audio_buffer, int audio_buffer_size, int argc, char *argv[]);
 
-void print_result(result_t result) {
+// void print_result(result_t result) {
 
-    for(int i=0; i<result.n; i++) {
-        printf("%i  %i %i\n", result.phonemes_idx[i], result.starts[i], result.ends[i]);
-    }
-}
+//     for(int i=0; i<result.n; i++) {
+//         printf("%i  %i %i\n", result.phonemes_idx[i], result.starts[i], result.ends[i]);
+//     }
+// }
 
-void* create_buffer(size_t* bsize, const char* filename, const char* mode){
+void* create_buffer(int* bsize, const char* filename, const char* mode){
     FILE* file = NULL;
     file = fopen(filename, mode);
     if (file == NULL) {
@@ -95,8 +95,8 @@ main()
     void* jsgf_buffer = NULL;
     void* wav_data = NULL;
 
-    size_t jsgf_buffer_size = 0; 
-    size_t wav_data_size = 0;
+    int jsgf_buffer_size = 0; 
+    int wav_data_size = 0;
     
     jsgf_buffer = create_buffer( &jsgf_buffer_size, jsgf_filename, "rb");
     wav_data = create_buffer(&wav_data_size, audio_filename, "rb");
