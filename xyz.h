@@ -321,7 +321,7 @@ recognize_from_microphone()
 
 
 // // //void retrieve_results(ps_decoder_t *ps){
-void retrieve_results(){
+char *retrieve_results(int *resultsize){
     /* Log a backtrace if requested. */
     if (cmd_ln_boolean_r(config, "-backtrace")) {
         FILE *fresult=NULL;
@@ -336,23 +336,36 @@ void retrieve_results(){
         
         if (hyp != NULL) {
     	    fprintf(fresult, "%s (%d)\n", hyp, score);
+            fflush(fresult);
     	    fprintf(fresult, "%-20s %-5s %-5s\n", "word", "start", "end");
+            fflush(fresult);
 
     	    for ( seg = ps_seg_iter(ps); seg; seg = ps_seg_next(seg) ) {
                 int sf, ef;
                 char const *word = ps_seg_word(seg);
                 ps_seg_frames(seg, &sf, &ef);
                 fprintf(fresult, "%-20s %-5d %-5d\n", word, sf, ef);
+                fflush(fresult);
     	    }
         }
+        
         fclose(fresult);
+        //memcpy(result, "1234", sizeof(char)*4);
+        *resultsize=4;
+        return "1234";
+
+    } else {
+        *resultsize=0;
+        return NULL;
     }
 }
 
 
-int ps_call(void* jsgf_buffer, int jsgf_buffer_size, void* audio_buffer, int audio_buffer_size, int argc, char *argv[])
+char *ps_call_from_go(void* jsgf_buffer, size_t jsgf_buffer_size, void* audio_buffer, size_t audio_buffer_size, int argc, char *argv[], int *result_size)
 { 
     char const *cfg;
+    //int stringsize=0;
+    char *stringresult;
 
     config = cmd_ln_parse_r(NULL, cont_args_def, argc, argv, TRUE);
 
@@ -364,14 +377,15 @@ int ps_call(void* jsgf_buffer, int jsgf_buffer_size, void* audio_buffer, int aud
     if (config == NULL || (cmd_ln_str_r(config, "-infile") == NULL && cmd_ln_boolean_r(config, "-inmic") == FALSE)) {
 	    E_INFO("Specify '-infile <file.wav>' to recognize from file or '-inmic yes' to recognize from microphone.\n");
         cmd_ln_free_r(config);
-	    return 1;
+	    return NULL;
     }
 
     ps_default_search_args(config);
     ps = ps_init_buffered(config, jsgf_buffer, jsgf_buffer_size);
     if (ps == NULL) {
         cmd_ln_free_r(config);
-        return 1;
+        //result_size[0]=0;
+        return NULL;
     }
 
     E_INFO("%s COMPILED ON: %s, AT: %s\n\n", argv[0], __DATE__, __TIME__);
@@ -385,7 +399,7 @@ int ps_call(void* jsgf_buffer, int jsgf_buffer_size, void* audio_buffer, int aud
         recognize_from_file();
     }
 
-    retrieve_results();
+    stringresult = retrieve_results(result_size);
     /* Log a backtrace if requested. */
     // if (cmd_ln_boolean_r(config, "-backtrace")) {
     //     ps_seg_t *seg;
@@ -410,7 +424,7 @@ int ps_call(void* jsgf_buffer, int jsgf_buffer_size, void* audio_buffer, int aud
     ps_free(ps);
     cmd_ln_free_r(config);
 
-    return 0;
+    //return stringsize;
+    return stringresult;
 
 }
-

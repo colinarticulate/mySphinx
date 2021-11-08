@@ -2,7 +2,9 @@ Priceless to read, i wish I could have found it sooner:
 https://github.com/lxwagn/using-go-with-c-libraries
 
 
-
+to make thigs easier we could call from the local folder so every change is automatically updated for the caller withouth having to commit code.
+go mod edit -replace github.com/davidbarbera/articulate-pocketsphinx-go/xyz=/home/dbarbera/Repositories/articulate-pocketsphinx-go/xyz
+go mod edit -replace github.com/davidbarbera/articulate-pocketsphinx-go/xyz=<your-local-path>/articulate-pocketsphinx-go/xyz
 
 
 >$ go mod init

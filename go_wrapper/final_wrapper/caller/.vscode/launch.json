@@ -10,25 +10,26 @@
             "request": "launch",
             "mode": "auto",
             "program": "${fileDirname}",
-            // "args":[
-            //     "-ldflags=\"-extldflags=-static\""
-            // ],
+//             "args":[
+// //"-ldflags=\"-extldflags=-static\""
+//                 "-buildmode=plugin"
+//             ],
             //"envFile" :"$(workspaceFolder)/.env"
-            "env":{
-                // "LD_PRELOAD":"/usr/local/lib/libxyzpocketsphinx.so \
-                // /usr/local/lib/libxyzsphinxbase.so \
-                // /usr/local/lib/libxyzsphinxad.so",
- //               "CGO_ENABLED":"1",
-                //"GOPATH": "/home/dbarbera/go",
-                //"GOPATH": "/home/dbarbera/Repositories/mySphinx/go_wrapper/final_wrapper/caller",
-                // "CGO_CFLAGS": "-g -O2 -Wall -Wl,-rpath=/usr/local/lib -fPIC -Wextra \
-                //                 -Wno-unused-result -Wno-unused-but-set-variable -Wno-unused-function -Wno-unused-parameter -Wno-unused-variable \
-                //                 -Iusr/local/include/ \
-                //                 -I/usr/local/include/sphinxbase \
-                //                 -I/usr/local/include/pocketsphinx",
-                // "CGO_LDFLAGS": "-L/usr/local/lib -lxyzpocketsphinx -lxyzsphinxbase -lxyzsphinxad"
+//             "env":{
+//                 "LD_PRELOAD":"${fileDirname}/usr/local/lib/libpocketsphinx.so \
+//                 ${fileDirname}/usr/local/lib/libsphinxbase.so \
+//                 ${fileDirname}/usr/local/lib/libsphinxad.so"
+// // //  //               "CGO_ENABLED":"1",
+// //                 //"GOPATH": "/home/dbarbera/go",
+// //                 //"GOPATH": "/home/dbarbera/Repositories/mySphinx/go_wrapper/final_wrapper/caller",
+// //                 "CGO_CFLAGS": "-g -O2 -Wall -Wl,-rpath=/usr/local/lib -fPIC -Wextra \
+// //                                 -Wno-unused-result -Wno-unused-but-set-variable -Wno-unused-function -Wno-unused-parameter -Wno-unused-variable \
+// //                                 -I/usr/local/include/ \
+// //                                 -I${fileDirname}/usr/local/include/sphinxbase \
+// //                                 -I${fileDirname}/usr/local/include/pocketsphinx",
+// //                 "CGO_LDFLAGS": "-L${fileDirname}/usr/local/lib -lpocketsphinx -lsphinxbase -lsphinxad"
 
-            }
+//             }
         }
     ]
 }

@@ -1,0 +1,4 @@
+-cminit "52.55,0.14,-3.23,14.29,-7.74,9.03,-7.17,-6.31,-0.13,1.09,5.23,-2.69,1.01"
+
+After a pocketsphinx_batch scan, these values for -cmninit are a better fit and give better results:
+"43.46,-0.55,-4.37,11.73,-6.42,8.67,-8.58,-7.35,-0.16,2.92,6.63,0.05,4.06"

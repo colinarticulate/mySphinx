@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
+#include <errno.h> 
 
 #if defined(_WIN32) && !defined(__CYGWIN__)
 #include <windows.h>
@@ -12,6 +13,9 @@
 #include <sphinxbase/ad.h>
 
 #include <pocketsphinx.h>
+
+POCKETSPHINX_EXPORT
+ps_decoder_t *ps_init_buffered(cmd_ln_t *config, void *buffer, size_t size);
 
 // #include "sphinxbase/include/sphinxbase/err.h"
 // #include "sphinxbase/include/sphinxbase/ad.h"
@@ -325,40 +329,97 @@ recognize_from_microphone()
     ad_close(ad);
 }
 
+// int append_field(char* str, const char* conststr, const char* field_separator, int previous_size) {
+//     int separatorsize =strlen(field_separator);
+//     int fieldsize = strlen(conststr);
+//     int size = previous_size + fieldsize + separatorsize;
+
+//     str=(char*)realloc(str, sizeof(char)*(size+1)); //+1 for the '\0' character
+//     memcpy(str+previous_size, conststr, sizeof(char)*fieldsize);
+//     memcpy(str+previous_size+fieldsize, field_separator, sizeof(char)*(separatorsize)); 
+//     str[size]='\0';
+//     return size;
+// }
+
 
 // // //void retrieve_results(ps_decoder_t *ps){
-void retrieve_results(){
+int retrieve_results(char *sresult){
+
+    char buffer[256];
+    buffer[0]='\0';
     /* Log a backtrace if requested. */
     if (cmd_ln_boolean_r(config, "-backtrace")) {
         FILE *fresult=NULL;
         fresult=fopen("result.txt","w");
         if (fresult==NULL){
-            printf("Couldnt open file for results.");
+            printf("Couldn't open file for results.");
         }
+
         ps_seg_t *seg;
         int32 score;
 
         const char *hyp = ps_get_hyp(ps, &score);
-        
+        strcat(sresult, hyp);
+        strcat(sresult,"*");
+        sprintf(buffer, "%d", score);
+        strcat(sresult,buffer);
+        strcat(sresult,"*");
+        printf("%s\n",sresult);
+
+        //int buffersize = strlen(buffer);
+        //acc_size = append_field(sresult, buffer, "*", acc_size);
+        //acc_size = append_field(sresult, itoa(), "*", acc_size);
+
         if (hyp != NULL) {
+    	    E_INFO("%s (%d)\n", hyp, score);
+    	    E_INFO_NOFN("%-20s %-5s %-5s\n", "word", "start", "end");
+
     	    fprintf(fresult, "%s (%d)\n", hyp, score);
+            fflush(fresult);
     	    fprintf(fresult, "%-20s %-5s %-5s\n", "word", "start", "end");
+            fflush(fresult);
+ 
 
     	    for ( seg = ps_seg_iter(ps); seg; seg = ps_seg_next(seg) ) {
                 int sf, ef;
                 char const *word = ps_seg_word(seg);
                 ps_seg_frames(seg, &sf, &ef);
-                fprintf(fresult, "%-20s %-5d %-5d\n", word, sf, ef);
+                E_INFO_NOFN("%-20s %-5d %-5d\n", word, sf, ef);
+                //printf("%-20s %-5d %-5d\n", word, sf, ef);
+                //strcpy(buffer,word);
+                if (sf!=ef) { //for some obscure reason this if (meant to discard (NULL) entries) breaks the hash table when ps gets free.
+                
+                    fprintf(fresult, "%-20s %-5d %-5d\n", word, sf, ef);
+                    sprintf(buffer, "%s,%d,%-d*", word, sf, ef);
+                    strcat(sresult, buffer);
+                    //printf("%s\n", sresult);
+                    
+                    fflush(fresult);
+                }
     	    }
+            strcat(sresult,"*");
         }
-        fclose(fresult);
-    }
+        
+        //err=fclose(fresult);
+
+        if(fclose(fresult) != 0)
+        {
+            fprintf(stderr, "Error closing file: %s", strerror(errno));
+        }
+
+
+
+    } 
+
+    return strlen(sresult);
 }
 
 
-int ps_call(void* jsgf_buffer, size_t jsgf_buffer_size, void* audio_buffer, size_t audio_buffer_size, int argc, char *argv[])
+int ps_call_from_go(void* jsgf_buffer, size_t jsgf_buffer_size, void* audio_buffer, size_t audio_buffer_size, int argc, char *argv[], char* sresult)
 { 
     char const *cfg;
+    int stringsize=0;
+    
 
     config = cmd_ln_parse_r(NULL, cont_args_def, argc, argv, TRUE);
 
@@ -391,7 +452,7 @@ int ps_call(void* jsgf_buffer, size_t jsgf_buffer_size, void* audio_buffer, size
         recognize_from_file();
     }
 
-    retrieve_results();
+    stringsize = retrieve_results(sresult);
     /* Log a backtrace if requested. */
     // if (cmd_ln_boolean_r(config, "-backtrace")) {
     //     ps_seg_t *seg;
@@ -416,7 +477,8 @@ int ps_call(void* jsgf_buffer, size_t jsgf_buffer_size, void* audio_buffer, size
     ps_free(ps);
     cmd_ln_free_r(config);
 
-    return 0;
+    //return stringsize;
+    return stringsize;
 
 }
 

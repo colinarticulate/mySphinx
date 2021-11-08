@@ -11,6 +11,7 @@
                     "-Wno-unused-result", //remove warning about unused return values. (continuous.c:163:2: warning: ignoring return value of ‘fread’,)
                     "-Wno-unused-function",
                     "-Wno-unused-variable",
+                    "-Wno-unused-but-set-variable",
                     //Spicfy where to find our tailor-made libraires to the linker and later to gdb so we debug the right library
                     "-Wl,-rpath=${fileDirname}/debug/usr/local/lib",
                    // "-Wl,-rpath=${fileDirname}/sphinxbase/src/libsphinxbase/util",
